@@ -19,193 +19,54 @@ void SEIR_model::approx(int T) {
     double residueR=history_[T].R-std::trunc(history_[T].R);
     double r = residueS+residueE+residueI+residueR;
     int residuetot = static_cast<int>(r);
-
+    std::cout<<"residuetot è "<<residuetot<<std::endl;
+    std::cout<<"residueS è "<<residueS<<std::endl;
+    std::cout<<"residueE è "<<residueE<<std::endl;
+    std::cout<<"residueI è "<<residueI<<std::endl;
+    std::cout<<"residueR è "<<residueR<<std::endl;
     int count=0;
     int rdm;
 
-    count = (residueS>=residueR>=residueI>=residueE) ? 31 : count;
-    count = (residueS>=residueI>=residueR>=residueE) ? 32 : count;
-    count = (residueS>=residueE>=residueI>=residueR) ? 33 : count;
-    count = (residueS>=residueE>=residueR>=residueI) ? 34 : count;
-    count = (residueS>=residueR>=residueE>=residueI) ? 35 : count;
-    count = (residueS>=residueR>=residueI>=residueE) ? 36 : count;
+count = (residueS>=residueR && residueR>=residueI && residueI>=residueE) ? 31 : count;
+count = (residueS>=residueI && residueI>=residueR && residueR>=residueE) ? 32 : count;
+count = (residueS>=residueE && residueE>=residueI && residueI>=residueR) ? 33 : count;
+count = (residueS>=residueE && residueE>=residueR && residueR>=residueI) ? 34 : count;
+count = (residueS>=residueR && residueR>=residueE && residueE>=residueI) ? 35 : count;
+count = (residueS>=residueR && residueR>=residueI && residueI>=residueE) ? 36 : count;
 
-    count = (residueE>=residueI>=residueR>=residueS) ? 37 : count;
-    count = (residueE>=residueI>=residueS>=residueR) ? 38 : count;
-    count = (residueE>=residueR>=residueI>=residueS) ? 39 : count;
-    count = (residueE>=residueR>=residueS>=residueI) ? 40 : count;
-    count = (residueE>=residueS>=residueR>=residueI) ? 41 : count;
-    count = (residueE>=residueS>=residueI>=residueR) ? 42 : count;
+count = (residueE>=residueI && residueI>=residueR && residueR>=residueS) ? 37 : count;
+count = (residueE>=residueI && residueI>=residueS && residueS>=residueR) ? 38 : count;
+count = (residueE>=residueR && residueR>=residueI && residueI>=residueS) ? 39 : count;
+count = (residueE>=residueR && residueR>=residueS && residueS>=residueI) ? 40 : count;
+count = (residueE>=residueS && residueS>=residueR && residueR>=residueI) ? 41 : count;
+count = (residueE>=residueS && residueS>=residueI && residueI>=residueR) ? 42 : count;
 
-    count = (residueI>=residueR>=residueE>=residueS) ? 43 : count;
-    count = (residueI>=residueE>=residueR>=residueS) ? 44 : count;
-    count = (residueI>=residueS>=residueR>=residueE) ? 45 : count;
-    count = (residueI>=residueS>=residueE>=residueR) ? 46 : count;
-    count = (residueI>=residueE>=residueS>=residueR) ? 47 : count;
-    count = (residueI>=residueR>=residueS>=residueE) ? 48 : count;
+count = (residueI>=residueR && residueR>=residueE && residueE>=residueS) ? 43 : count;
+count = (residueI>=residueE && residueE>=residueR && residueR>=residueS) ? 44 : count;
+count = (residueI>=residueS && residueS>=residueR && residueR>=residueE) ? 45 : count;
+count = (residueI>=residueS && residueS>=residueE && residueE>=residueR) ? 46 : count;
+count = (residueI>=residueE && residueE>=residueS && residueS>=residueR) ? 47 : count;
+count = (residueI>=residueR && residueR>=residueS && residueS>=residueE) ? 48 : count;
 
-    count = (residueR>=residueI>=residueE>=residueS) ? 49 : count;
-    count = (residueR>=residueE>=residueI>=residueS) ? 50 : count;
-    count = (residueR>=residueS>=residueI>=residueE) ? 51 : count;
-    count = (residueR>=residueS>=residueE>=residueI) ? 52 : count;
-    count = (residueR>=residueE>=residueS>=residueI) ? 53 : count;
-    count = (residueR>=residueI>=residueS>=residueE) ? 54 : count;
-
+count = (residueR>=residueI && residueI>=residueE && residueE>=residueS) ? 49 : count;
+count = (residueR>=residueE && residueE>=residueI && residueI>=residueS) ? 50 : count;
+count = (residueR>=residueS && residueS>=residueI && residueI>=residueE) ? 51 : count;
+count = (residueR>=residueS && residueS>=residueE && residueE>=residueI) ? 52 : count;
+count = (residueR>=residueE && residueE>=residueS && residueS>=residueI) ? 53 : count;
+count = (residueR>=residueI && residueI>=residueS && residueS>=residueE) ? 54 : count;
+std::cout<<"count è "<<count<<std::endl;
 /*infine l'ultimo caso è residuetot=3 dove ho paura che bisognerà rifare tutto riversato, 
-però necessariamente ho due >0.5, quindi basta metterli in ordine e l'ultimo per difetto*/
+però necessariamente ho tre >0.5, quindi basta metterli in ordine e l'ultimo per difetto*/
 
     if (residuetot==3) {
 switch (count) {
+// E invariata
     case 31:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
     case 32:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-    case 33:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-    case 34:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-    case 35:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
     case 36:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-    case 37:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-    case 38:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-    case 39:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-    case 40:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-    case 41:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
-    case 42:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-
-    case 43:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
-    case 44:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
     case 45:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 46:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-
-    case 47:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-
     case 48:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 49:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
-    case 50:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        break;
     case 51:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 52:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
-    case 53:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
     case 54:
         history_[T].R = std::trunc(history_[T].R) + 1;
         history_[T].I = std::trunc(history_[T].I) + 1;
@@ -213,16 +74,51 @@ switch (count) {
         history_[T].E = std::trunc(history_[T].E);
         break;
 
-default:
-    break;
+// R invariata
+    case 33:
+    case 38:
+    case 42:
+    case 46:
+    case 47:
+        history_[T].I = std::trunc(history_[T].I) + 1;
+        history_[T].E = std::trunc(history_[T].E) + 1;
+        history_[T].S = std::trunc(history_[T].S) + 1;
+        history_[T].R = std::trunc(history_[T].R);
+        break;
+
+// I invariata
+    case 34:
+    case 35:
+    case 40:
+    case 41:
+    case 52:
+    case 53:
+        history_[T].R = std::trunc(history_[T].R) + 1;
+        history_[T].E = std::trunc(history_[T].E) + 1;
+        history_[T].S = std::trunc(history_[T].S) + 1;
+        history_[T].I = std::trunc(history_[T].I);
+        break;
+
+// S invariata
+    case 37:
+    case 39:
+    case 43:
+    case 44:
+    case 49:
+    case 50:
+        history_[T].R = std::trunc(history_[T].R) + 1;
+        history_[T].E = std::trunc(history_[T].E) + 1;
+        history_[T].I = std::trunc(history_[T].I) + 1;
+        history_[T].S = std::trunc(history_[T].S);
+        break;
+
 }
     }
 //fine caso residue tot=3
 //inizio caso residuetot=2
 else {
-
 // caso tutti 0.5
-    if (residuetot==2 && residueE==residueI==residueR==residueS) {
+    if (residuetot==2 && residueE==residueI && residueR==residueS && residueI==residueR) {
         rdm=std::rand() % 6 +1;
 switch (rdm)
     {
@@ -259,19 +155,23 @@ switch (rdm)
     }
 else {
         if (residuetot==2) {
+
 switch (count) {
+ // IE invariati case 35,36,51,52  
     case 31:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].R = std::trunc(history_[T].R) + 1;
         history_[T].I = std::trunc(history_[T].I);
         history_[T].E = std::trunc(history_[T].E);
         break;
+// RE invariati case 45,46,
     case 32:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].I = std::trunc(history_[T].I) + 1;
         history_[T].R = std::trunc(history_[T].R);
         history_[T].E = std::trunc(history_[T].E);
         break;
+// IR invariati 34, 41,42,
     case 33:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].E = std::trunc(history_[T].E) + 1;
@@ -296,6 +196,7 @@ switch (count) {
         history_[T].I = std::trunc(history_[T].I);
         history_[T].E = std::trunc(history_[T].E);
         break;
+// RS invariati case 38,44,47,
     case 37:
         history_[T].E = std::trunc(history_[T].E) + 1;
         history_[T].I = std::trunc(history_[T].I) + 1;
@@ -308,6 +209,7 @@ switch (count) {
         history_[T].S = std::trunc(history_[T].S);
         history_[T].R = std::trunc(history_[T].R);
         break;
+// IS invariati case 40,50,53,
     case 39:
         history_[T].E = std::trunc(history_[T].E) + 1;
         history_[T].R = std::trunc(history_[T].R) + 1;
@@ -333,7 +235,7 @@ switch (count) {
         history_[T].I = std::trunc(history_[T].I);
         history_[T].R = std::trunc(history_[T].R);
         break;
-
+// case ES
     case 43:
         history_[T].I = std::trunc(history_[T].I) + 1;
         history_[T].R = std::trunc(history_[T].R) + 1;
@@ -417,277 +319,61 @@ switch (count) {
         history_[T].E = std::trunc(history_[T].E);
         break;
 
-default:
-    break;
 }
     }
 //fine caso residuetot=2
 //inizio caso residuetot=1
- else {
-
-        if (residuetot==1) {
-            
-    count = (residueS>residueE && residueS>residueR && residueS>residueI) ? 1 : count;
-    count = (residueE>residueS && residueE>residueR && residueE>residueI) ? 2 : count;
-    count = (residueI>residueE && residueI>residueR && residueI>residueS) ? 3 : count;
-    count = (residueR>residueE && residueR>residueI && residueR>residueS) ? 4 : count;
-
-    switch (count) {
-        case 1:
+else {
+    if (residuetot==1) {
+        switch (count)
+        {
+        case 31:
+        case 32:
+        case 33:
+        case 34:
+        case 35:
+        case 36:
             history_[T].S=std::trunc(history_[T].S)+1;
             history_[T].E=std::trunc(history_[T].E);
             history_[T].I=std::trunc(history_[T].I);
             history_[T].R=std::trunc(history_[T].R);
             break;
-        case 2:
+        case 37:
+        case 38:
+        case 39:
+        case 40:
+        case 41:
+        case 42:
             history_[T].E=std::trunc(history_[T].E)+1;
             history_[T].S=std::trunc(history_[T].S);
             history_[T].I=std::trunc(history_[T].I);
             history_[T].R=std::trunc(history_[T].R);
             break;
-        case 3:
+        case 43:
+        case 44:
+        case 45:
+        case 46:
+        case 47:
+        case 48:           
             history_[T].I=std::trunc(history_[T].I)+1;
             history_[T].E=std::trunc(history_[T].E);
             history_[T].S=std::trunc(history_[T].S);
             history_[T].R=std::trunc(history_[T].R);
             break;
-        case 4:
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+        case 53:
+        case 54:
             history_[T].R=std::trunc(history_[T].R)+1;
             history_[T].E=std::trunc(history_[T].E);
             history_[T].I=std::trunc(history_[T].I);
             history_[T].S=std::trunc(history_[T].S);
-            break;
-        default:
-            count=0;
-            break;
-    }
-
-rdm=std::rand() % 2 +1;
-    count = (residueS==residueE && residueS>residueR && residueS>residueI) ? 5 : count;
-    count = (residueE==residueI && residueE>residueR && residueE>residueS) ? 7 : count;
-    count = (residueI==residueS && residueI>residueR && residueI>residueE) ? 9 : count;
-    count = (residueR==residueS && residueR>residueI && residueR>residueE) ? 11 : count;
-    count = (residueR==residueE && residueR>residueI && residueR>residueS) ? 13 : count;
-    count = (residueR==residueI && residueR>residueS && residueR>residueE) ? 15 : count;
-
-
-    switch(count) {
-        case 5:
-            if (rdm==1) {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-            history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        case 7:
-            if (rdm==1) {
-             history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        case 9:
-            if (rdm==1) {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        case 11:
-            if (rdm==1) {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-            }
-            else {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        case 13:
-            if (rdm==1) {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-            }
-            else {
-            history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        case 15:
-            if (rdm==1) {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-            }
-            else {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            break;
-        default:
-            count=0;
-            break;
-    }
-
-rdm=std::rand() % 3 +1;
-    count = (residueS==residueE==residueR && residueS>residueI) ? 17 : count;
-    count = (residueE==residueI==residueR && residueE>residueS) ? 20 : count;
-    count = (residueI==residueS==residueR && residueI>residueE) ? 23 : count;
-    count = (residueS==residueE==residueI && residueR>residueS) ? 26 : count;
-     
-     
-     switch(count) {
-        case 17:
-            if (rdm==1) {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-                if (rdm==2) {
-            history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-             else {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-             }}
-            break;
-        case 20:
-            if (rdm==1) {
-            history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-                if (rdm==2) {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-             else {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-             }}
-            break;
-        case 23:
-            if (rdm==1) {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-                if (rdm==2) {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-             else {
-            history_[T].R=std::trunc(history_[T].R)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].E=std::trunc(history_[T].E);
-             }}
-            break;
-        case 26:
-            if (rdm==1) {
-            history_[T].S=std::trunc(history_[T].S)+1;
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-            else {
-                if (rdm==2) {
-            history_[T].E=std::trunc(history_[T].E)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].I=std::trunc(history_[T].I);
-            history_[T].R=std::trunc(history_[T].R);
-            }
-             else {
-            history_[T].I=std::trunc(history_[T].I)+1;
-            history_[T].S=std::trunc(history_[T].S);
-            history_[T].E=std::trunc(history_[T].E);
-            history_[T].R=std::trunc(history_[T].R);
-             }}
-            break;
-        default:
-            count=0;
-            break;
-    }
-rdm=std::rand() % 4 +1;
-    switch (rdm)
-    {
-    case 1:
-        history_[T].S=std::trunc(history_[T].S)+1;
-        history_[T].E=std::trunc(history_[T].E);
-        history_[T].I=std::trunc(history_[T].I);
-        history_[T].R=std::trunc(history_[T].R);
-        break;
-    case 2:
-        history_[T].E=std::trunc(history_[T].E)+1;
-        history_[T].S=std::trunc(history_[T].S);
-        history_[T].I=std::trunc(history_[T].I);
-        history_[T].R=std::trunc(history_[T].R);
-        break;
-    case 3:
-        history_[T].I=std::trunc(history_[T].I)+1;
-        history_[T].S=std::trunc(history_[T].S);
-        history_[T].E=std::trunc(history_[T].E);
-        history_[T].R=std::trunc(history_[T].R);
-        break;
-    case 4:
-        history_[T].R=std::trunc(history_[T].R)+1;
-        history_[T].S=std::trunc(history_[T].S);
-        history_[T].I=std::trunc(history_[T].I);
-        history_[T].E=std::trunc(history_[T].E);
-        count=30;
-        break;
-    }
+            break; 
         }
- }
+    }
+}
  }
 }
  
@@ -706,3 +392,7 @@ void SEIR_model::print() {
 
 }
 
+SEIR SEIR_model::publish(int T) {
+     SEIR r {history_[T].S,history_[T].E,history_[T].I,history_[T].R};
+    return r;
+}
