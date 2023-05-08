@@ -159,6 +159,10 @@ else {
 switch (count) {
  // IE invariati case 35,36,51,52  
     case 31:
+    case 35:
+    case 36:
+    case 51:
+    case 52:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].R = std::trunc(history_[T].R) + 1;
         history_[T].I = std::trunc(history_[T].I);
@@ -166,6 +170,8 @@ switch (count) {
         break;
 // RE invariati case 45,46,
     case 32:
+    case 45:
+    case 46:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].I = std::trunc(history_[T].I) + 1;
         history_[T].R = std::trunc(history_[T].R);
@@ -173,150 +179,43 @@ switch (count) {
         break;
 // IR invariati 34, 41,42,
     case 33:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].R = std::trunc(history_[T].R);
-        break;
     case 34:
+    case 41:
+    case 42:
         history_[T].S = std::trunc(history_[T].S) + 1;
         history_[T].E = std::trunc(history_[T].E) + 1;
+        history_[T].I = std::trunc(history_[T].I);
         history_[T].R = std::trunc(history_[T].R);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-    case 35:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-    case 36:
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].E = std::trunc(history_[T].E);
         break;
 // RS invariati case 38,44,47,
     case 37:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
     case 38:
+    case 44:
+    case 47:
         history_[T].E = std::trunc(history_[T].E) + 1;
         history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S);
         history_[T].R = std::trunc(history_[T].R);
+        history_[T].S = std::trunc(history_[T].S);
         break;
 // IS invariati case 40,50,53,
     case 39:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
     case 40:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-    case 41:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
-    case 42:
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-// case ES
-    case 43:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
-    case 44:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
-    case 45:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].R = std::trunc(history_[T].R);
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 46:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-
-    case 47:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        history_[T].R = std::trunc(history_[T].R);
-        break;
-
-    case 48:
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 49:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-
     case 50:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].S = std::trunc(history_[T].S);
-        break;
-    case 51:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].I = std::trunc(history_[T].I);
-        history_[T].E = std::trunc(history_[T].E);
-        break;
-
-    case 52:
-        history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].S = std::trunc(history_[T].S) + 1;
-        history_[T].E = std::trunc(history_[T].E);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
     case 53:
-        history_[T].R = std::trunc(history_[T].R) + 1;
         history_[T].E = std::trunc(history_[T].E) + 1;
-        history_[T].S = std::trunc(history_[T].S);
-        history_[T].I = std::trunc(history_[T].I);
-        break;
-
-    case 54:
         history_[T].R = std::trunc(history_[T].R) + 1;
-        history_[T].I = std::trunc(history_[T].I) + 1;
+        history_[T].I = std::trunc(history_[T].I);
         history_[T].S = std::trunc(history_[T].S);
+        break;
+// ES invariati 48,49,54
+    case 43:
+    case 48:
+    case 49:
+    case 54:
+        history_[T].I = std::trunc(history_[T].I) + 1;
+        history_[T].R = std::trunc(history_[T].R) + 1;
         history_[T].E = std::trunc(history_[T].E);
+        history_[T].S = std::trunc(history_[T].S);
         break;
 
 }
