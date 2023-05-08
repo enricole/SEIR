@@ -12,6 +12,10 @@ double S;
 double E;
 double I;
 double R;
+bool operator==(SEIR const& other) const noexcept {  
+  return S == other.S && E == other.E && I == other.I && R == other.R;
+ }
+
 };
 
 
@@ -26,11 +30,13 @@ class SEIR_model {
     std::vector<SEIR> history_;
  public:
     SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days);
-    void verify();
+    bool verify();
     void approx(int T);
     void evolve();
     void print();
+    SEIR daily_seir(int T);
 };
 
 
 #endif
+
