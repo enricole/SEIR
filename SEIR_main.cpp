@@ -29,5 +29,16 @@ using std::endl;
     SEIR_model modello1(seirprova, a, b, c, d, f);
     modello1.approx(0);
     modello1.print();
+    cout<<"dimmi i suscettibili approssimati"<<endl;
+    cin>>s;
+    cout<<"dimmi gli infetti approssimati"<<endl;
+    cin>>i;
+    cout<<"dimmi gli esposti approssimati"<<endl;
+    cin>>e;
+    cout<<"dimmi i curati approssimati"<<endl;
+    cin>>r;
+    SEIR seirpovaapprox{s, e, i, r};
+    if (seirpovaapprox==modello1.publish(0)) {cout<<"Vero"<<endl;}
+    else {cout<<"falso"<<endl;}
     return 0;
  }
