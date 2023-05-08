@@ -10,6 +10,27 @@ SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const
     history_.push_back(SEIR_ini);
  }
 
+ //non so se mu e a vadano minori di 1
+bool SEIR_model::verify() {
+        if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||
+        beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || a_ < 0){
+        throw std::runtime_error{"beta and gamma must be between zero and one, mu and a must be positive"};
+        return false;
+    }
+
+        if (round(history_[0].S) != history_[0].S || round(history_[0].I) != history_[0].I || round(history_[0].E) != history_[0].E || round(history_[0].R) != history_[0].R || 
+        history_[0].S < 0 || history_[0].I < 0 || history_[0].E < 0 || history_[0].R < 0) {
+        throw std::runtime_error{"S, I, E e R must be non-negative integer"};
+        return false;
+    }
+
+    if (typeid(days_) != typeid(unsigned int)) {
+        throw std::runtime_error{"number of days must be non-negative integer"};
+        return false;
+    }
+    else {return true;}
+    
+}
 
 void SEIR_model::approx(int T) {
 
@@ -55,8 +76,7 @@ count = (residueR>=residueS && residueS>=residueE && residueE>=residueI) ? 52 : 
 count = (residueR>=residueE && residueE>=residueS && residueS>=residueI) ? 53 : count;
 count = (residueR>=residueI && residueI>=residueS && residueS>=residueE) ? 54 : count;
 std::cout<<"count è "<<count<<std::endl;
-/*infine l'ultimo caso è residuetot=3 dove ho paura che bisognerà rifare tutto riversato, 
-però necessariamente ho tre >0.5, quindi basta metterli in ordine e l'ultimo per difetto*/
+//infine l'ultimo caso è residuetot=3 dove ho paura che bisognerà rifare tutto riversato, però necessariamente ho tre >0.5, quindi basta metterli in ordine e l'ultimo per difetto
 
     if (residuetot==3) {
 switch (count) {
@@ -278,6 +298,18 @@ else {
  
  }
 
+void SEIR_model::evolve() {
+    for (int i=0; i<static_cast<int>(days_); i++) {
+        SEIR last = history_.back();
+        SEIR next;
+        next.S = mu_*N_+(last.S * (1-mu_))-(beta_*last.I*last.S/N_);
+        next.E = last.E*(1-mu_-a_)+(beta_*last.I*last.S/N_);
+        next.I = last.I*(1-gamma_-mu_)+(a_*last.E);
+        next.R = last.R*(1-mu_)+(last.I*gamma_);
+        history_.push_back(next);
+    }
+}
+
 void SEIR_model::print() {
     int N = days_;
     for (int i=0; i<N; i++) {
@@ -291,7 +323,7 @@ void SEIR_model::print() {
 
 }
 
-SEIR SEIR_model::publish(int T) {
+SEIR SEIR_model::daily_seir(int T) {
      SEIR r {history_[T].S,history_[T].E,history_[T].I,history_[T].R};
     return r;
 }
