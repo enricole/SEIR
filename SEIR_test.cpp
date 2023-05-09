@@ -12,7 +12,7 @@ TEST_CASE("Testing SEIR_model::approx") {
         SEIR SEIR_test{S,E,I,R};
         SEIR_model SEIR_model_test(SEIR_test,1,1,1,1,1);
         SEIR SEIR_approx_test {14,19,8,3};
-        SEIR_model_test.approx(0);
+        SEIR_model_test.evolve();
         CHECK(SEIR_model_test.daily_seir(0)==SEIR_approx_test);
     }
     SUBCASE("Test approx caso resideutot==2") {
@@ -20,7 +20,7 @@ TEST_CASE("Testing SEIR_model::approx") {
         SEIR SEIR_test{S,E,I,R};
         SEIR_model SEIR_model_test(SEIR_test,1,1,1,1,1);
         SEIR SEIR_approx_test {13,0,5,14};
-        SEIR_model_test.approx(0);
+        SEIR_model_test.evolve();
         CHECK(SEIR_model_test.daily_seir(0)==SEIR_approx_test);
     }
     SUBCASE("Test approx caso residuetot==1"){
@@ -28,7 +28,7 @@ TEST_CASE("Testing SEIR_model::approx") {
         SEIR SEIR_test{S,E,I,R};
         SEIR_model SEIR_model_test(SEIR_test,1,1,1,1,1);
         SEIR SEIR_approx_test {14,18,7,3};
-        SEIR_model_test.approx(0);
+        SEIR_model_test.evolve();
         SEIR_model_test.print();
         CHECK(SEIR_model_test.daily_seir(0)==SEIR_approx_test);
     }
