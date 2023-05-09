@@ -29,5 +29,6 @@ using std::endl;
     SEIR_model modello1(seirprova, a, b, c, d, f);
     modello1.approx(0);
     modello1.print();
+    modello1.graph();
     return 0;
  }

@@ -1,3 +1,6 @@
+#ifndef SIRGRAPH_HPP
+#define SIRGRAPH_HPP
+
 #include "TCanvas.h"
 #include "TGraph.h"
 #include "TPad.h"
@@ -5,8 +8,9 @@
 
 #include "sir_model.hpp"
 
-class SEIRgraph : public SEIR_model {
+class SEIR_graph : public SEIR_model {
     public:
-        SEIRgraph(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days);
+        SEIR_graph(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days);
         void graph();
 }
+#endif
