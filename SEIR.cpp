@@ -1,9 +1,7 @@
-// funzione approsimazione fare come già fatto valutando la parte decimale con eventuale generazione random
 
-// per fare data assimilation, valuto l'errore tra le previsione e il seir, dopodiché la esprimo in percentuale e la percentuale mi da quanto devo cambiare i vincoli con generazione random
-// per il processo inverso semplicemente fit
 #include "SEIR.hpp"
 
+//ci sono cout da eliminnare sia subito che subito prima del primo if
 SEIR approx(SEIR non_approx) {
 
     double residueS=non_approx.S-std::trunc(non_approx.S);
@@ -277,22 +275,22 @@ SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const
     N_ = SEIR_ini.S + SEIR_ini.E + SEIR_ini.I + SEIR_ini.R;
     history_.push_back(SEIR_ini);
  }
-//non so se mu e a vadano minori di 1   
+ 
 bool SEIR_model::verify() {
         if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||
-        beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || a_ < 0){
-        throw std::runtime_error{"beta and gamma must be between zero and one, mu and a must be positive"};
+        beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || mu_ > 1|| a_ < 0 || a_ >1){
+        std::cout<<"beta, gamma, mu and a must be between zero and one and positive"<<std::endl;
         return false;
     }
 
         if (round(history_[0].S) != history_[0].S || round(history_[0].I) != history_[0].I || round(history_[0].E) != history_[0].E || round(history_[0].R) != history_[0].R || 
         history_[0].S < 0 || history_[0].I < 0 || history_[0].E < 0 || history_[0].R < 0) {
-        throw std::runtime_error{"S, I, E e R must be non-negative integer"};
+        std::cout<<"S, I, E e R must be non-negative integer"<<std::endl;
         return false;
     }
 
     if (typeid(days_) != typeid(unsigned int)) {
-        throw std::runtime_error{"number of days must be non-negative integer"};
+        std::cout<<"number of days must be non-negative integer"<<std::endl;
         return false;
     }
     else {return true;}
