@@ -30,5 +30,16 @@ using std::endl;
     modello1.approx(0);
     modello1.print();
     modello1.graph();
+    cout<<"dimmi i suscettibili approssimati"<<endl;
+    cin>>s;
+    cout<<"dimmi gli infetti approssimati"<<endl;
+    cin>>i;
+    cout<<"dimmi gli esposti approssimati"<<endl;
+    cin>>e;
+    cout<<"dimmi i curati approssimati"<<endl;
+    cin>>r;
+    SEIR seirpovaapprox{s, e, i, r};
+    if (seirpovaapprox==modello1.publish(0)) {cout<<"Vero"<<endl;}
+    else {cout<<"falso"<<endl;}
     return 0;
  }
