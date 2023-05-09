@@ -18,6 +18,7 @@ bool operator==(SEIR const& other) const noexcept {
 
 };
 
+SEIR approx(SEIR non_approx);
 
 class SEIR_model {
  protected:
@@ -31,7 +32,6 @@ class SEIR_model {
  public:
     SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days);
     bool verify();
-    void approx(int T);
     void evolve();
     void print();
     SEIR daily_seir(int T);
