@@ -277,7 +277,7 @@ SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const
     N_ = SEIR_ini.S + SEIR_ini.E + SEIR_ini.I + SEIR_ini.R;
     history_.push_back(SEIR_ini);
  }
-//non so se mu e a vadano minori di 1
+//non so se mu e a vadano minori di 1   
 bool SEIR_model::verify() {
         if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||
         beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || a_ < 0){
@@ -314,7 +314,7 @@ void SEIR_model::evolve() {
 
 void SEIR_model::print() {
     int N = days_;
-    for (int i=0; i<N; i++) {
+    for (int i=0; i<N+1 ; i++) {
         std::cout<<"il numero di suscettibili è, nel giorno "<<i<<", :"<<history_[i].S<<std::endl;
         std::cout<<"il numero di infetti è, nel giorno "<<i<<", :"<<history_[i].I<<std::endl;
         std::cout<<"il numero di esposti è, nel giorno "<<i<<" :"<<history_[i].E<<std::endl;
