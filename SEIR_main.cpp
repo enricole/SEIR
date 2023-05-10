@@ -27,7 +27,8 @@ using std::endl;
     cin>>r;
     SEIR seirprova{s, e, i, r};
     SEIR_model modello1(seirprova, a, b, c, d, f);
-    modello1.approx(0);
+    modello1.verify();
+    modello1.evolve();
     modello1.print();
     cout<<"dimmi i suscettibili approssimati"<<endl;
     cin>>s;
@@ -38,7 +39,7 @@ using std::endl;
     cout<<"dimmi i curati approssimati"<<endl;
     cin>>r;
     SEIR seirpovaapprox{s, e, i, r};
-    if (seirpovaapprox==modello1.publish(0)) {cout<<"Vero"<<endl;}
+    if (seirpovaapprox==modello1.daily_seir(0)) {cout<<"Vero"<<endl;}
     else {cout<<"falso"<<endl;}
     return 0;
  }
