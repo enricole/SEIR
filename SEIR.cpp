@@ -327,7 +327,7 @@ void SEIR_model::evolve() {
         std::cout<<"i curati al giorno approssimati"<<i+1<<"sono"<<next.R<<std::endl;
         history_.push_back(next);
     }
-    for (int j=0; j<static_cast<int>(days_); j++) {
+    for (int j=0; j<1+static_cast<int>(days_); j++) {
         history_[j] = approx(history_[j]);
     }
 }
