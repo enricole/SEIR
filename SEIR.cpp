@@ -1,6 +1,14 @@
 
 #include "SEIR.hpp"
 
+
+double approx_zero(double value, double tolerance = 1e-10) {
+  if (std::abs(value) < tolerance) {
+    return 0.0;
+  } else {
+    return value;
+  }
+}
 //ci sono cout da eliminnare sia subito che subito prima del primo if
 SEIR approx(SEIR non_approx) {
 
@@ -265,6 +273,10 @@ else {
 }
  }
 }
+    non_approx.R=approx_zero(non_approx.R);
+    non_approx.E=approx_zero(non_approx.E);
+    non_approx.I=approx_zero(non_approx.I);
+    non_approx.S=approx_zero(non_approx.S);
  return non_approx;
  }
 
@@ -305,11 +317,20 @@ void SEIR_model::evolve() {
         next.E = last.E*(1-mu_-a_)+(beta_*last.I*last.S/N_);
         next.I = last.I*(1-gamma_-mu_)+(a_*last.E);
         next.R = last.R*(1-mu_)+(last.I*gamma_);
-        next = approx(next);
+        std::cout<<"i suscettibili al giorno "<<i+1<<"sono"<<next.S<<std::endl;
+        std::cout<<"gli esposti al giorno "<<i+1<<"sono"<<next.E<<std::endl;
+        std::cout<<"gli infetti al giorno "<<i+1<<"sono"<<next.I<<std::endl;
+        std::cout<<"i curati al giorno "<<i+1<<"sono"<<next.R<<std::endl;
+        std::cout<<"i suscettibili al giorno approssimati"<<i+1<<"sono"<<next.S<<std::endl;
+        std::cout<<"gli esposti al giorno approssimati"<<i+1<<"sono"<<next.E<<std::endl;
+        std::cout<<"gli infetti al giorno approssimati"<<i+1<<"sono"<<next.I<<std::endl;
+        std::cout<<"i curati al giorno approssimati"<<i+1<<"sono"<<next.R<<std::endl;
         history_.push_back(next);
     }
+    for (int j=0; j<static_cast<int>(days_); j++) {
+        history_[j] = approx(history_[j]);
+    }
 }
-
 void SEIR_model::print() {
     int N = days_;
     for (int i=0; i<N+1 ; i++) {
@@ -327,3 +348,5 @@ SEIR SEIR_model::daily_seir(int T) {
      SEIR r {history_[T].S,history_[T].E,history_[T].I,history_[T].R};
     return r;
 }
+
+
