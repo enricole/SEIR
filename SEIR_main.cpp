@@ -27,20 +27,13 @@ using std::endl;
     cin>>r;
     SEIR seirprova{s, e, i, r};
     SEIR_model modello1(seirprova, a, b, c, d, f);
+    SEIR_model modello2(seirprova, a, b, c, d, f);
     modello1.verify();
-    modello1.evolve();
+    modello1.evolve_runge_kutta();
     modello1.print();
-    modello1.graph();
-    cout<<"dimmi i suscettibili approssimati"<<endl;
-    cin>>s;
-    cout<<"dimmi gli infetti approssimati"<<endl;
-    cin>>i;
-    cout<<"dimmi gli esposti approssimati"<<endl;
-    cin>>e;
-    cout<<"dimmi i curati approssimati"<<endl;
-    cin>>r;
-    SEIR seirpovaapprox{s, e, i, r};
-    if (seirpovaapprox==modello1.daily_seir(0)) {cout<<"Vero"<<endl;}
-    else {cout<<"falso"<<endl;}
+    modello1.print_out("evolve_runge_kutta.txt");
+    modello2.evolve();
+    modello2.print_out("evolve_std.txt");
+    //modello1.graph();
     return 0;
  }
