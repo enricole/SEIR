@@ -10,7 +10,7 @@ double approx_zero(double value, double tolerance = 1e-10) {
   }
 }
 //ci sono cout da eliminnare sia subito che subito prima del primo if
-SEIR approx(SEIR non_approx) {
+SEIR approx(SEIR non_approx) { 
 
     double residueS=non_approx.S-std::trunc(non_approx.S);
     double residueE=non_approx.E-std::trunc(non_approx.E);
@@ -26,7 +26,7 @@ SEIR approx(SEIR non_approx) {
     int count=0;
     int rdm;
 
-count = (residueS>=residueR && residueR>=residueI && residueI>=residueE) ? 31 : count;
+count = (residueS>=residueI && residueI>=residueE && residueE>=residueR) ? 31 : count;
 count = (residueS>=residueI && residueI>=residueR && residueR>=residueE) ? 32 : count;
 count = (residueS>=residueE && residueE>=residueI && residueI>=residueR) ? 33 : count;
 count = (residueS>=residueE && residueE>=residueR && residueR>=residueI) ? 34 : count;
