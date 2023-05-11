@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
+#include <fstream>   
 
 
 struct SEIR {
@@ -26,14 +27,16 @@ class SEIR_model {
     const float gamma_;
     const float mu_;
     const float a_;
-    const unsigned int days_;
+    const int days_;
     int N_;
     std::vector<SEIR> history_;
  public:
-    SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days);
+    SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const int days);
     bool verify();
     void evolve();
+    void evolve_runge_kutta();
     void print();
+    void print_out(std::string name);
     SEIR daily_seir(int T);
 };
 
