@@ -9,7 +9,7 @@ double approx_zero(double value, double tolerance = 1e-10) {
     return value;
   }
 }
-//ci sono cout da eliminnare sia subito che subito prima del primo if
+
 SEIR approx(SEIR non_approx) { 
 
     double residueS=non_approx.S-std::trunc(non_approx.S);
@@ -18,11 +18,6 @@ SEIR approx(SEIR non_approx) {
     double residueR=non_approx.R-std::trunc(non_approx.R);
     double r = residueS+residueE+residueI+residueR;
     int residuetot = round(r);
-    std::cout<<"residuetot è "<<residuetot<<std::endl;
-    std::cout<<"residueS è "<<residueS<<std::endl;
-    std::cout<<"residueE è "<<residueE<<std::endl;
-    std::cout<<"residueI è "<<residueI<<std::endl;
-    std::cout<<"residueR è "<<residueR<<std::endl;
     int count=0;
     int rdm;
 
@@ -53,57 +48,40 @@ count = (residueR>=residueS && residueS>=residueI && residueI>=residueE) ? 51 : 
 count = (residueR>=residueS && residueS>=residueE && residueE>=residueI) ? 52 : count;
 count = (residueR>=residueE && residueE>=residueS && residueS>=residueI) ? 53 : count;
 count = (residueR>=residueI && residueI>=residueS && residueS>=residueE) ? 54 : count;
-std::cout<<"count è "<<count<<std::endl;
-//infine l'ultimo caso è residuetot=3 dove ho paura che bisognerà rifare tutto riversato, però necessariamente ho tre >0.5, quindi basta metterli in ordine e l'ultimo per difetto
 
+// case residuetot==3
     if (residuetot==3) {
 switch (count) {
-// E invariata
-    case 31:
-    case 32:
-    case 36:
-    case 45:
-    case 48:
-    case 51:
-    case 54:
+// E const
+    case 31:case 32:case 36:case 45:case 48:case 51:case 54:
+
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.I = std::trunc(non_approx.I) + 1;
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.E = std::trunc(non_approx.E);
         break;
 
-// R invariata
-    case 33:
-    case 38:
-    case 42:
-    case 46:
-    case 47:
+// R const
+    case 33:case 38:case 42:case 46:case 47:
+
         non_approx.I = std::trunc(non_approx.I) + 1;
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.R = std::trunc(non_approx.R);
         break;
 
-// I invariata
-    case 34:
-    case 35:
-    case 40:
-    case 41:
-    case 52:
-    case 53:
+// I const
+    case 34:case 35:case 40:case 41:case 52:case 53:
+
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.I = std::trunc(non_approx.I);
         break;
 
-// S invariata
-    case 37:
-    case 39:
-    case 43:
-    case 44:
-    case 49:
-    case 50:
+// S const
+    case 37:case 39:case 43:case 44:case 49:case 50:
+
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.I = std::trunc(non_approx.I) + 1;
@@ -112,10 +90,10 @@ switch (count) {
 
 }
     }
-//fine caso residue tot=3
-//inizio caso residuetot=2
+//end of residuetot==3
+//case residuetot==2
 else {
-// caso tutti 0.5
+// case all 0.5
     if (residuetot==2 && residueE==residueI && residueR==residueS && residueI==residueR) {
         rdm=std::rand() % 6 +1;
 switch (rdm)
@@ -155,61 +133,49 @@ else {
         if (residuetot==2) {
 
 switch (count) {
- // IE invariati case 35,36,51,52  
-    case 31:
-    case 35:
-    case 36:
-    case 51:
-    case 52:
+ // IE const
+    case 31:case 35:case 36:case 51:case 52:
+
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.I = std::trunc(non_approx.I);
         non_approx.E = std::trunc(non_approx.E);
         break;
-// RE invariati case 45,46,
-    case 32:
-    case 45:
-    case 46:
+// RE const
+    case 32:case 45:case 46:
+
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.I = std::trunc(non_approx.I) + 1;
         non_approx.R = std::trunc(non_approx.R);
         non_approx.E = std::trunc(non_approx.E);
         break;
-// IR invariati 34, 41,42,
-    case 33:
-    case 34:
-    case 41:
-    case 42:
+// IR const
+    case 33:case 34:case 41:case 42:
+
         non_approx.S = std::trunc(non_approx.S) + 1;
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.I = std::trunc(non_approx.I);
         non_approx.R = std::trunc(non_approx.R);
         break;
-// RS invariati case 38,44,47,
-    case 37:
-    case 38:
-    case 44:
-    case 47:
+// RS const
+    case 37:case 38:case 44:case 47:
+
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.I = std::trunc(non_approx.I) + 1;
         non_approx.R = std::trunc(non_approx.R);
         non_approx.S = std::trunc(non_approx.S);
         break;
-// IS invariati case 40,50,53,
-    case 39:
-    case 40:
-    case 50:
-    case 53:
+// IS const
+    case 39:case 40:case 50:case 53:
+
         non_approx.E = std::trunc(non_approx.E) + 1;
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.I = std::trunc(non_approx.I);
         non_approx.S = std::trunc(non_approx.S);
         break;
-// ES invariati 48,49,54
-    case 43:
-    case 48:
-    case 49:
-    case 54:
+// ES const
+    case 43:case 48:case 49:case 54:
+
         non_approx.I = std::trunc(non_approx.I) + 1;
         non_approx.R = std::trunc(non_approx.R) + 1;
         non_approx.E = std::trunc(non_approx.E);
@@ -218,51 +184,39 @@ switch (count) {
 
 }
     }
-//fine caso residuetot=2
-//inizio caso residuetot=1
+//end of residuetot==2
+//case residuetot==1
 else {
     if (residuetot==1) {
         switch (count)
         {
-        case 31:
-        case 32:
-        case 33:
-        case 34:
-        case 35:
-        case 36:
+// EIR const
+        case 31:case 32:case 33:case 34:case 35:case 36:
+
             non_approx.S=std::trunc(non_approx.S)+1;
             non_approx.E=std::trunc(non_approx.E);
             non_approx.I=std::trunc(non_approx.I);
             non_approx.R=std::trunc(non_approx.R);
             break;
-        case 37:
-        case 38:
-        case 39:
-        case 40:
-        case 41:
-        case 42:
+// SIR const
+        case 37:case 38:case 39:case 40:case 41:case 42:
+
             non_approx.E=std::trunc(non_approx.E)+1;
             non_approx.S=std::trunc(non_approx.S);
             non_approx.I=std::trunc(non_approx.I);
             non_approx.R=std::trunc(non_approx.R);
             break;
-        case 43:
-        case 44:
-        case 45:
-        case 46:
-        case 47:
-        case 48:           
+// ESR const
+        case 43:case 44:case 45:case 46:case 47:case 48:        
+
             non_approx.I=std::trunc(non_approx.I)+1;
             non_approx.E=std::trunc(non_approx.E);
             non_approx.S=std::trunc(non_approx.S);
             non_approx.R=std::trunc(non_approx.R);
             break;
-        case 49:
-        case 50:
-        case 51:
-        case 52:
-        case 53:
-        case 54:
+// EIS const
+        case 49:case 50:case 51:case 52:case 53:case 54:
+        
             non_approx.R=std::trunc(non_approx.R)+1;
             non_approx.E=std::trunc(non_approx.E);
             non_approx.I=std::trunc(non_approx.I);
@@ -278,10 +232,10 @@ else {
     non_approx.I=approx_zero(non_approx.I);
     non_approx.S=approx_zero(non_approx.S);
  return non_approx;
- }
+}
 
 
-SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a, const unsigned int days) 
+SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a,const int days) 
  : beta_(beta), gamma_(gamma), mu_(mu), a_(a), days_(days) {
     SEIR_ini = approx(SEIR_ini);
     N_ = SEIR_ini.S + SEIR_ini.E + SEIR_ini.I + SEIR_ini.R;
@@ -301,7 +255,8 @@ bool SEIR_model::verify() {
         return false;
     }
 
-    if (typeid(days_) != typeid(unsigned int)) {
+    if (days_<0) {
+        
         std::cout<<"number of days must be non-negative integer"<<std::endl;
         return false;
     }
@@ -310,38 +265,84 @@ bool SEIR_model::verify() {
 }
 
 void SEIR_model::evolve() {
-    for (int i=0; i<static_cast<int>(days_); i++) {
+    for (int i=0; i<days_; i++) {
         SEIR last = history_.back();
         SEIR next;
         next.S = mu_*N_+(last.S * (1-mu_))-(beta_*last.I*last.S/N_);
         next.E = last.E*(1-mu_-a_)+(beta_*last.I*last.S/N_);
         next.I = last.I*(1-gamma_-mu_)+(a_*last.E);
         next.R = last.R*(1-mu_)+(last.I*gamma_);
-        std::cout<<"i suscettibili al giorno "<<i+1<<"sono"<<next.S<<std::endl;
-        std::cout<<"gli esposti al giorno "<<i+1<<"sono"<<next.E<<std::endl;
-        std::cout<<"gli infetti al giorno "<<i+1<<"sono"<<next.I<<std::endl;
-        std::cout<<"i curati al giorno "<<i+1<<"sono"<<next.R<<std::endl;
-        std::cout<<"i suscettibili al giorno approssimati"<<i+1<<"sono"<<next.S<<std::endl;
-        std::cout<<"gli esposti al giorno approssimati"<<i+1<<"sono"<<next.E<<std::endl;
-        std::cout<<"gli infetti al giorno approssimati"<<i+1<<"sono"<<next.I<<std::endl;
-        std::cout<<"i curati al giorno approssimati"<<i+1<<"sono"<<next.R<<std::endl;
         history_.push_back(next);
     }
     for (int j=0; j<1+static_cast<int>(days_); j++) {
         history_[j] = approx(history_[j]);
     }
 }
+
+void SEIR_model::evolve_runge_kutta() {
+    std::vector<long double> K_S(4,0);
+    std::vector<long double> K_E(4,0);
+    std::vector<long double> K_I(4,0);
+    std::vector<long double> K_R(4,0);
+    for (int i=0; i<days_; i++) {
+        SEIR last = history_.back();
+        SEIR next;
+
+        K_S[0]= mu_*N_-(mu_*last.S)-(beta_*last.I*last.S/N_);
+        K_E[0] = -last.E*(mu_+a_)+(beta_*last.I*last.S/N_);
+        K_I[0] = -last.I*(gamma_+mu_)+(a_*last.E);
+        K_R[0] = -(last.R*mu_)+(last.I*gamma_);
+
+        K_S[1]= mu_*N_-(mu_*(last.S+K_S[0]/2))-(beta_*(last.I+K_I[0]/2)*(last.S+K_S[0]/2)/N_);
+        K_E[1] = -(last.E+K_E[0]/2)*(mu_+a_)+(beta_*(last.I+K_I[0]/2)*(last.S+K_S[0]/2)/N_);
+        K_I[1] = -(last.I+K_I[0]/2)*(gamma_+mu_)+(a_*(last.E+K_E[0]/2));
+        K_R[1] = -((last.R+K_R[0]/2)*mu_)+((last.I+K_I[0]/2)*gamma_);
+
+
+        K_S[2]= mu_*N_-(mu_*(last.S+K_S[1]/2))-(beta_*(last.I+K_I[1]/2)*(last.S+K_S[1]/2)/N_);
+        K_E[2] = -(last.E+K_E[1]/2)*(mu_+a_)+(beta_*(last.I+K_I[1]/2)*(last.S+K_S[1]/2)/N_);
+        K_I[2] = -(last.I+K_I[1]/2)*(gamma_+mu_)+(a_*(last.E+K_E[1]/2));
+        K_R[2] = -((last.R+K_R[1]/2)*mu_)+((last.I+K_I[1]/2)*gamma_);
+
+        K_S[3]= mu_*N_-(mu_*(last.S+K_S[2]))-(beta_*(last.I+K_I[2])*(last.S+K_S[2])/N_);
+        K_E[3] = -(last.E+K_E[2])*(mu_+a_)+(beta_*(last.I+K_I[2])*(last.S+K_S[2])/N_);
+        K_I[3] = -(last.I+K_I[2])*(gamma_+mu_)+(a_*(last.E+K_E[2]));
+        K_R[3] = -((last.R+K_R[2])*mu_)+((last.I+K_I[2])*gamma_);
+
+        next.S = (last.S+(K_S[0]+2*K_S[1]+2*K_S[2]+K_S[3])/6);
+        next.E = (last.E+(K_E[0]+2*K_E[1]+2*K_E[2]+K_E[3])/6);
+        next.I = (last.I+(K_I[0]+2*K_I[1]+2*K_I[2]+K_I[3])/6);
+        next.R = (last.R+(K_R[0]+2*K_R[1]+2*K_R[2]+K_R[3])/6);
+        history_.push_back(next);
+    }
+    for (int j=0; j<1+static_cast<int>(days_); j++) {
+        history_[j] = approx(history_[j]);
+    }
+}
+
+
 void SEIR_model::print() {
     int N = days_;
     for (int i=0; i<N+1 ; i++) {
-        std::cout<<"il numero di suscettibili è, nel giorno "<<i<<", :"<<history_[i].S<<std::endl;
-        std::cout<<"il numero di infetti è, nel giorno "<<i<<", :"<<history_[i].I<<std::endl;
-        std::cout<<"il numero di esposti è, nel giorno "<<i<<" :"<<history_[i].E<<std::endl;
-        std::cout<<"il numero di recovered è, nel giorno "<<i<<" :"<<history_[i].R<<std::endl;
+        std::cout<<"il numero di suscettibili è, nel giorno "<<i<<" : "<<history_[i].S<<std::endl;
+        std::cout<<"il numero di infetti è, nel giorno "<<i<<" : "<<history_[i].I<<std::endl;
+        std::cout<<"il numero di esposti è, nel giorno "<<i<<" : "<<history_[i].E<<std::endl;
+        std::cout<<"il numero di recovered è, nel giorno "<<i<<" : "<<history_[i].R<<std::endl;
 
     }
     
 
+}
+void SEIR_model::print_out(std::string name) {
+    std::ofstream output_file(name);
+    if (output_file.is_open()) {
+        output_file <<"GIORNO - Susceptible - Exposed - Infected - Recovered"<<std::endl;
+        for (int i=0; i<days_; i++) {
+            output_file <<"   "<<i<<"         "<<history_[i].S<<"          "<<history_[i].E<<"         "<<history_[i].I<<"          "<<history_[i].R<<"     "<<std::endl;
+
+        }
+
+    }
 }
 
 SEIR SEIR_model::daily_seir(int T) {
