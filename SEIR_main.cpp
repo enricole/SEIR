@@ -6,39 +6,44 @@ using std::endl;
 
  int main() {
     double s,e,i,r;
-    double a,b,c,d;
-    int f;
-
-
-    cout<<"dimmi beta"<<endl;
-    cin>>a;
-    cout<<"dimmi gamma"<<endl;
-    cin>>b;
-    cout<<"dimmi mu"<<endl;
-    cin>>c;
-    cout<<"dimmi a"<<endl;
-    cin>>d;
-    cout<<"dimmi i giorni"<<endl;
-    cin>>f;
-    cout<<"dimmi i suscettibili"<<endl;
-    cin>>s;
-    cout<<"dimmi gli infetti"<<endl;
-    cin>>i;
-    cout<<"dimmi gli esposti"<<endl;
-    cin>>e;
-    cout<<"dimmi i curati"<<endl;
-    cin>>r;
-    SEIR seirprova{s, e, i, r};
-    SEIR_graph modello1(seirprova, a, b, c, d, f);
-    SEIR_graph modello2(seirprova, a, b, c, d, f);
-    modello1.verify();
-    modello1.evolve_runge_kutta();
-    modello1.print();
-    modello1.print_out("evolve_runge_kutta.txt");
-    modello2.evolve();
-    modello2.print_out("evolve_std.txt");
-    modello1.graph("SEIR_RK.png","SEIR_RK_O.png");
-    modello2.graph("SEIR.png", "SEIR_O.png");
+    double Beta,Gamma,Mu,a;
+    int Days;
+    int Day;
+    cout<<"Set the number of susceptible"<<endl; cin>>s;
+    cout<<"Set the number of exposed"<<endl; cin>>e;
+    cout<<"Set the number of infected"<<endl; cin>>i;
+    cout<<"Set the number of recovered"<<endl; cin>>r;
+    cout<<"Set beta value"<<endl; cin>>Beta;
+    cout<<"Set gamma value"<<endl; cin>>Gamma;
+    cout<<"Set mu value"<<endl; cin>>Mu;
+    cout<<"Set a value"<<endl; cin>>a;
+    cout<<"Set number of days of the simulation"<<endl; cin>>Days;
+   SEIR SEIR_setted{s, e, i, r};
+   SEIR_graph model1 (SEIR_setted, Beta, Gamma, Mu, a, Days);
+   while (model1.verify()==false) {
+    cout<<"Set the number of susceptible"<<endl; cin>>s;
+    cout<<"Set the number of exposed"<<endl; cin>>e;
+    cout<<"Set the number of infected"<<endl; cin>>i;
+    cout<<"Set the number of recovered"<<endl; cin>>r;
+    cout<<"Set beta value"<<endl; cin>>Beta;
+    cout<<"Set gamma value"<<endl; cin>>Gamma;
+    cout<<"Set mu value"<<endl; cin>>Mu;
+    cout<<"Set a value"<<endl; cin>>a;
+    cout<<"Set number of days of the simulation"<<endl; cin>>Days;
+    SEIR SEIR_verify{s, e, i, r};
+    SEIR_graph model0 (SEIR_verify, Beta, Gamma, Mu, a, Days);
+    model1 = model0;
+   }
+   SEIR_graph model2 (SEIR_setted, Beta, Gamma, Mu, a, Days);
+    model1.evolve_runge_kutta();
+    model2.evolve();
+    cout<<"Set the day you want to print"<<endl;
+    cin>>Day;
+    model1.print(Day);
+    model1.print_out("evolve_runge_kutta.txt");
+    model2.print_out("evolve_euler.txt");
+    model1.graph("SEIR_RK.png","SEIR_RK_O.png");
+    model2.graph("SEIR.png", "SEIR_O.png");
 
     return 0;
  }
