@@ -247,7 +247,7 @@ else {
 
 
 // A simple contructor that initialize the parameters
-SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a,const int days) 
+SEIR_model::SEIR_model(SEIR SEIR_ini, float beta, float gamma, float mu, float a,int days) 
  : beta_(beta), gamma_(gamma), mu_(mu), a_(a), days_(days) {
     SEIR_ini = approx(SEIR_ini);
     N_ = SEIR_ini.S + SEIR_ini.E + SEIR_ini.I + SEIR_ini.R;
@@ -257,7 +257,7 @@ SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const
 /*we opted for a boolean control so to make a switch control in the main for a correct object
 initialization*/
 bool SEIR_model::verify() {
-        if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||
+        if (typeid(beta_) != typeid(float) || typeid(gamma_) != typeid(float) || typeid(mu_) != typeid(float) || typeid(a_) != typeid(float) ||
         beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || mu_ > 1|| a_ < 0 || a_ >1){
         std::cout<<"beta, gamma, mu and a must be between zero and one and positive"<<std::endl;
         return false;
@@ -371,4 +371,17 @@ SEIR SEIR_model::daily_seir(int T) {
     return r;
 }
 
+// redefinition of = for SEIR_model objects
+SEIR_model& SEIR_model::operator=(const SEIR_model& other) {
+    if (this != &other) {
+        beta_ = other.beta_;
+        gamma_ = other.gamma_;
+        mu_ = other.mu_;
+        a_ = other.a_;
+        days_ = other.days_;
+        N_ = other.N_;
+        history_ = other.history_;
+    }
 
+ return *this;
+}
