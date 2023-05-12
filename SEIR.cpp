@@ -2,6 +2,10 @@
 #include "SEIR.hpp"
 
 
+// NOT SEIR_MODEL FUNCTIONS
+
+
+//This function is needed to convert numbers under 1e-10 in to 0.0
 double approx_zero(double value, double tolerance = 1e-10) {
   if (std::abs(value) < tolerance) {
     return 0.0;
@@ -9,18 +13,21 @@ double approx_zero(double value, double tolerance = 1e-10) {
     return value;
   }
 }
-
+//This function is needed to convert in int type the double values S,E,I,R preserving N=S+E+I+R
 SEIR approx(SEIR non_approx) { 
-
+// we first evaluate the decimal part of every SEIR parameter
     double residueS=non_approx.S-std::trunc(non_approx.S);
     double residueE=non_approx.E-std::trunc(non_approx.E);
     double residueI=non_approx.I-std::trunc(non_approx.I);
     double residueR=non_approx.R-std::trunc(non_approx.R);
     double r = residueS+residueE+residueI+residueR;
+// the total residue tells us how many integers we have to add to the trunc versions of S,E,I,R
     int residuetot = round(r);
+//we will use count as a flag
     int count=0;
+// rdm will be usefull in the case of equal decimal parts
     int rdm;
-
+// we list all the possible cases 4!=24
 count = (residueS>=residueI && residueI>=residueE && residueE>=residueR) ? 31 : count;
 count = (residueS>=residueI && residueI>=residueR && residueR>=residueE) ? 32 : count;
 count = (residueS>=residueE && residueE>=residueI && residueI>=residueR) ? 33 : count;
@@ -227,6 +234,7 @@ else {
 }
  }
 }
+// we use the already defined approx_zero to prevent the smallest possible double to "escape" trunc
     non_approx.R=approx_zero(non_approx.R);
     non_approx.E=approx_zero(non_approx.E);
     non_approx.I=approx_zero(non_approx.I);
@@ -235,13 +243,19 @@ else {
 }
 
 
+// SEIR_MODEL FUNCTIONS 
+
+
+// A simple contructor that initialize the parameters
 SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const float mu, const float a,const int days) 
  : beta_(beta), gamma_(gamma), mu_(mu), a_(a), days_(days) {
     SEIR_ini = approx(SEIR_ini);
     N_ = SEIR_ini.S + SEIR_ini.E + SEIR_ini.I + SEIR_ini.R;
     history_.push_back(SEIR_ini);
  }
- 
+
+/*we opted for a boolean control so to make a switch controll in the main for a correct object
+initialization*/
 bool SEIR_model::verify() {
         if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||
         beta_ < 0 || beta_ > 1 || gamma_ < 0 || gamma_ > 1 || mu_ < 0 || mu_ > 1|| a_ < 0 || a_ >1){
@@ -263,7 +277,7 @@ bool SEIR_model::verify() {
     else {return true;}
     
 }
-
+// a trivial Euler discretization of the SEIR differential equations
 void SEIR_model::evolve() {
     for (int i=0; i<days_; i++) {
         SEIR last = history_.back();
@@ -274,16 +288,17 @@ void SEIR_model::evolve() {
         next.R = last.R*(1-mu_)+(last.I*gamma_);
         history_.push_back(next);
     }
+// we here approximate to integers (after the total evolution) in order not to have decimals of people
     for (int j=0; j<1+static_cast<int>(days_); j++) {
         history_[j] = approx(history_[j]);
     }
 }
-
+// a less trivial discretization through Runge-Kutta discretization of the SEIR differential equations
 void SEIR_model::evolve_runge_kutta() {
-    std::vector<long double> K_S(4,0);
-    std::vector<long double> K_E(4,0);
-    std::vector<long double> K_I(4,0);
-    std::vector<long double> K_R(4,0);
+    std::vector<double> K_S(4,0);
+    std::vector<double> K_E(4,0);
+    std::vector<double> K_I(4,0);
+    std::vector<double> K_R(4,0);
     for (int i=0; i<days_; i++) {
         SEIR last = history_.back();
         SEIR next;
@@ -320,19 +335,25 @@ void SEIR_model::evolve_runge_kutta() {
     }
 }
 
-
-void SEIR_model::print() {
+// a simple print function that prints in te terminal the D day or in the case of -1 the all days
+void SEIR_model::print(int D) {
+    if (D>=0) {
+        std::cout<<"il numero di suscettibili è, nel giorno "<<D<<" : "<<history_[D].S<<std::endl;
+        std::cout<<"il numero di infetti è, nel giorno "<<D<<" : "<<history_[D].I<<std::endl;
+        std::cout<<"il numero di esposti è, nel giorno "<<D<<" : "<<history_[D].E<<std::endl;
+        std::cout<<"il numero di recovered è, nel giorno "<<D<<" : "<<history_[D].R<<std::endl;
+    }
+    else {
+    if (D==-1) {
+        std::cout<<"GIORNO - Susceptible - Exposed - Infected - Recovered"<<std::endl;
     int N = days_;
     for (int i=0; i<N+1 ; i++) {
-        std::cout<<"il numero di suscettibili è, nel giorno "<<i<<" : "<<history_[i].S<<std::endl;
-        std::cout<<"il numero di infetti è, nel giorno "<<i<<" : "<<history_[i].I<<std::endl;
-        std::cout<<"il numero di esposti è, nel giorno "<<i<<" : "<<history_[i].E<<std::endl;
-        std::cout<<"il numero di recovered è, nel giorno "<<i<<" : "<<history_[i].R<<std::endl;
-
+        std::cout<<"   "<<i<<"         "<<history_[i].S<<"          "<<history_[i].E<<"         "<<history_[i].I<<"          "<<history_[i].R<<"     "<<std::endl;
+    }}
     }
-    
 
 }
+// a simple function to save datas in the repository
 void SEIR_model::print_out(std::string name) {
     std::ofstream output_file(name);
     if (output_file.is_open()) {
@@ -344,7 +365,7 @@ void SEIR_model::print_out(std::string name) {
 
     }
 }
-
+/*a function that return the SEIR struct of the T day in order to make comparison using the redefinition of the == operator for SEIR*/
 SEIR SEIR_model::daily_seir(int T) {
      SEIR r {history_[T].S,history_[T].E,history_[T].I,history_[T].R};
     return r;
