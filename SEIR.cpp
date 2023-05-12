@@ -254,7 +254,7 @@ SEIR_model::SEIR_model(SEIR SEIR_ini, const float beta, const float gamma, const
     history_.push_back(SEIR_ini);
  }
 
-/*we opted for a boolean control so to make a switch controll in the main for a correct object
+/*we opted for a boolean control so to make a switch control in the main for a correct object
 initialization*/
 bool SEIR_model::verify() {
         if (typeid(beta_) != typeid(const float) || typeid(gamma_) != typeid(const float) || typeid(mu_) != typeid(const float) || typeid(a_) != typeid(const float) ||

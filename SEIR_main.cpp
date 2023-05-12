@@ -1,4 +1,5 @@
  #include "SEIR.hpp"
+ #include "SEIR_graph.hpp"
 using std::cout;
 using std::cin;
 using std::endl;
@@ -7,6 +8,8 @@ using std::endl;
     double s,e,i,r;
     double a,b,c,d;
     int f;
+
+
     cout<<"dimmi beta"<<endl;
     cin>>a;
     cout<<"dimmi gamma"<<endl;
@@ -26,14 +29,16 @@ using std::endl;
     cout<<"dimmi i curati"<<endl;
     cin>>r;
     SEIR seirprova{s, e, i, r};
-    SEIR_model modello1(seirprova, a, b, c, d, f);
-    SEIR_model modello2(seirprova, a, b, c, d, f);
+    SEIR_graph modello1(seirprova, a, b, c, d, f);
+    SEIR_graph modello2(seirprova, a, b, c, d, f);
     modello1.verify();
     modello1.evolve_runge_kutta();
     modello1.print();
     modello1.print_out("evolve_runge_kutta.txt");
     modello2.evolve();
     modello2.print_out("evolve_std.txt");
-    //modello1.graph();
+    modello1.graph("SEIR_RK.png","SEIR_RK_O.png");
+    modello2.graph("SEIR.png", "SEIR_O.png");
+
     return 0;
  }

@@ -23,9 +23,9 @@ SEIR approx(SEIR non_approx);
 class SEIR_model {
  protected:
     const float beta_; //transmission rate
-    const float gamma_; // healing and mortality rate FOR the ilness
-    const float mu_; // natural mortality rate NOT FOR the ilness
-    const float a_; // inverse of the incubation time of the ilness
+    const float gamma_; // healing and mortality rate caused by the illness
+    const float mu_; // natural mortality rate NOT caused by the illness
+    const float a_; // inverse of the incubation time of the illness
     const int days_;
     int N_; //the sum of SEIR parameters, that MUST stay constant
     std::vector<SEIR> history_; // a vector that recall the SEIR parameters for every day
